@@ -3,9 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Magic Library</title>
+    <link rel="stylesheet" href="src/style/style.css">
+    <script type="module" src="src/components/book-card.component.js" defer></script>
+    <script type="module" src="src/js/main.js" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    
+    <div class="main-header">
+        <div class="header-content">
+            <h3>Magic Library</h3>
+            <p>Donde los libros cobran vida y las historias trascienden el tiempo</p>
+            <nav>
+                <div class="category-carousel-container">
+                    <button class="category-nav-btn prev" id="category-prev">&lt;</button>
+                    <div class="category-carousel" id="category-carousel">
+                        <a href="#destacados" class="category-item">Destacados</a>
+                        <a href="#ficcion-literaria" class="category-item">Ficción literaria</a>
+                        <a href="#narrativa-contemporanea" class="category-item">Narrativa contemporánea</a>
+                        <a href="#novela" class="category-item">Novela</a>
+                        <a href="#ficcion-historica" class="category-item">Ficción histórica</a>
+                        <a href="#realismo-magico" class="category-item">Realismo mágico</a>
+                        <a href="#drama" class="category-item">Drama</a>
+                        <a href="#ciencia-ficcion" class="category-item">Ciencia ficción</a>
+                        <a href="#misterio" class="category-item">Misterio</a>
+                    </div>
+                    <button class="category-nav-btn next" id="category-next">&gt;</button>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <div class="search-bar">
+        <h3>Descubre historias mágicas</h3>
+        <p>Cada libro es una historia nueva por contar</p>
+        <input type="text" placeholder="Buscar libro" id="buscador">
+        <button id="btn-buscar">Buscar</button>
+    </div>
+    <div class="libros-destacados">
+        <h3>Libros destacados</h3>
+        <div class="libros-contenedor" id="destacados-container"></div>
+    </div>
+    <div class="todos-libros">
+        <h3>Catálogo completo</h3>
+        <div id="destacados" class="seccion-categoria">
+            <h2>Destacados</h2>
+            <div class="libros-contenedor destacados-section" id="seccion-destacados"></div>
+        </div>
+        <div id="ficcion-literaria" class="seccion-categoria">
+            <h2>Ficción literaria</h2>
+            <div class="libros-contenedor ficcion-literaria-section" id="seccion-ficcion-literaria"></div>
+        </div>
+        <div id="narrativa-contemporanea" class="seccion-categoria">
+            <h2>Narrativa contemporánea</h2>
+            <div class="libros-contenedor narrativa-contemporanea-section" id="seccion-narrativa-contemporanea"></div>
+        </div>
+        <div id="novela" class="seccion-categoria">
+            <h2>Novela</h2>
+            <div class="libros-contenedor novela-section" id="seccion-novela"></div>
+        </div>
+        <div id="ficcion-historica" class="seccion-categoria">
+            <h2>Ficción histórica</h2>
+            <div class="libros-contenedor ficcion-historica-section" id="seccion-ficcion-historica"></div>
+        </div>
+        <div id="realismo-magico" class="seccion-categoria">
+            <h2>Realismo mágico</h2>
+            <div class="libros-contenedor realismo-magico-section" id="seccion-realismo-magico"></div>
+        </div>
+        <div id="drama" class="seccion-categoria">
+            <h2>Drama</h2>
+            <div class="libros-contenedor drama-section" id="seccion-drama"></div>
+        </div>
+        <div id="ciencia-ficcion" class="seccion-categoria">
+            <h2>Ciencia ficción</h2>
+            <div class="libros-contenedor ciencia-ficcion-section" id="seccion-ciencia-ficcion"></div>
+        </div>
+        <div id="misterio" class="seccion-categoria">
+            <h2>Misterio</h2>
+            <div class="libros-contenedor misterio-section" id="seccion-misterio"></div>
+        </div>
+    </div>
 </body>
 </html>
