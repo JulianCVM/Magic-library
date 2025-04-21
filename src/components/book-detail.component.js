@@ -31,31 +31,40 @@ class BookDetail extends HTMLElement {
         // Aplicar fuentes según el género
         let fontFamily = '';
         let titleFont = '';
+        let genreColor = '';
         
         if (genre === 'ficción literaria') {
             fontFamily = "'Playfair Display', serif";
             titleFont = "'Playfair Display', serif";
+            genreColor = '#3498db'; // Azul
         } else if (genre === 'narrativa contemporánea') {
             fontFamily = "'Montserrat', sans-serif";
             titleFont = "'Montserrat', sans-serif";
+            genreColor = '#2ecc71'; // Verde
         } else if (genre === 'novela') {
             fontFamily = "'Roboto Slab', serif";
             titleFont = "'Roboto Slab', serif";
+            genreColor = '#e74c3c'; // Rojo
         } else if (genre === 'ficción histórica') {
             fontFamily = "'Crimson Text', serif";
             titleFont = "'Crimson Text', serif";
+            genreColor = '#2ecc71'; // Verde
         } else if (genre === 'realismo mágico') {
             fontFamily = "'Libre Baskerville', serif";
             titleFont = "'Libre Baskerville', serif";
+            genreColor = '#f39c12'; // Naranja
         } else if (genre === 'drama') {
             fontFamily = "'Merriweather', serif";
             titleFont = "'Merriweather', serif";
+            genreColor = '#34495e'; // Azul oscuro
         } else if (genre === 'misterio') {
             fontFamily = "'Source Sans Pro', sans-serif";
             titleFont = "'Source Sans Pro', sans-serif";
+            genreColor = '#8e44ad'; // Púrpura
         } else {
             fontFamily = "'Poppins', sans-serif";
             titleFont = "'Playfair Display', serif";
+            genreColor = '#6a3093'; // Morado por defecto
         }
         
         this.shadowRoot.innerHTML = `
@@ -63,12 +72,12 @@ class BookDetail extends HTMLElement {
                 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&family=Roboto+Slab:wght@300;400;500;600;700&family=Crimson+Text:wght@400;600;700&family=Libre+Baskerville:wght@400;700&family=Merriweather:wght@300;400;700&family=Source+Sans+Pro:wght@300;400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap');
                 
                 :host {
-                    --primary-color: #3a466c;
-                    --secondary-color: #f0c987;
-                    --text-color: #333;
-                    --text-light: #666;
-                    --bg-color: #fff;
-                    --shadow-color: rgba(0, 0, 0, 0.2);
+                    --primary-color: ${genreColor};
+                    --text-color: #e5e5e5;
+                    --text-secondary: #b8b8b8;
+                    --bg-color: #0c0c1d;
+                    --card-bg: #1c1c2d;
+                    --shadow-color: rgba(0, 0, 0, 0.4);
                     --font-family: ${fontFamily};
                     --title-font: ${titleFont};
                     
@@ -89,26 +98,27 @@ class BookDetail extends HTMLElement {
                     left: 0;
                     width: 100%;
                     height: 100%;
-                    background-color: rgba(0, 0, 0, 0.7);
-                    backdrop-filter: blur(5px);
+                    background-color: rgba(0, 0, 0, 0.85);
+                    backdrop-filter: blur(8px);
                     animation: fadeIn 0.3s ease forwards;
                 }
                 
                 .detail-container {
                     position: relative;
                     width: 90%;
-                    max-width: 900px;
+                    max-width: 1000px;
                     max-height: 85vh;
-                    background-color: var(--bg-color);
-                    border-radius: 12px;
-                    box-shadow: 0 10px 30px var(--shadow-color);
+                    background-color: var(--card-bg);
+                    border-radius: 16px;
+                    box-shadow: 0 15px 35px var(--shadow-color);
                     display: grid;
-                    grid-template-columns: minmax(250px, 1fr) 2fr;
+                    grid-template-columns: minmax(300px, 1fr) 2fr;
                     overflow: hidden;
                     transform: translateY(50px);
                     opacity: 0;
                     animation: slideUp 0.4s ease 0.1s forwards;
                     font-family: var(--font-family);
+                    border-top: 4px solid var(--primary-color);
                 }
                 
                 @media (max-width: 768px) {
@@ -118,59 +128,77 @@ class BookDetail extends HTMLElement {
                     }
                     
                     .book-image {
-                        height: 250px;
+                        height: 300px;
                     }
                 }
                 
                 .book-image {
                     height: 100%;
                     overflow: hidden;
-                    background-color: var(--primary-color);
+                    position: relative;
+                }
+                
+                .book-image::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: linear-gradient(to bottom, rgba(0,0,0,0) 50%, rgba(28,28,45,0.8) 100%);
+                    z-index: 1;
                 }
                 
                 .book-image img {
                     width: 100%;
                     height: 100%;
                     object-fit: cover;
+                    transition: transform 0.4s ease;
+                }
+                
+                .detail-container:hover .book-image img {
+                    transform: scale(1.05);
                 }
                 
                 .book-content {
-                    padding: 30px;
+                    padding: 35px;
                     overflow-y: auto;
                     max-height: 85vh;
+                    color: var(--text-color);
                 }
                 
                 .close-btn {
                     position: absolute;
-                    top: 15px;
-                    right: 15px;
-                    width: 36px;
-                    height: 36px;
+                    top: 20px;
+                    right: 20px;
+                    width: 40px;
+                    height: 40px;
                     border-radius: 50%;
-                    background-color: rgba(255, 255, 255, 0.9);
-                    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                    background-color: rgba(255, 255, 255, 0.1);
+                    backdrop-filter: blur(5px);
                     border: none;
                     cursor: pointer;
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    font-size: 20px;
-                    color: var(--text-color);
-                    transition: background-color 0.3s, transform 0.3s;
+                    font-size: 22px;
+                    color: white;
+                    transition: all 0.3s;
                     z-index: 10;
                 }
                 
                 .close-btn:hover {
-                    background-color: #fff;
+                    background-color: rgba(255, 255, 255, 0.2);
                     transform: scale(1.1);
                 }
                 
                 .book-title {
-                    font-size: 2rem;
+                    font-size: 2.4rem;
                     font-weight: 700;
-                    color: var(--primary-color);
-                    margin: 0 0 10px 0;
+                    color: white;
+                    margin: 0 0 15px 0;
                     font-family: var(--title-font);
+                    line-height: 1.2;
                 }
                 
                 .book-meta {
@@ -178,7 +206,7 @@ class BookDetail extends HTMLElement {
                     align-items: center;
                     gap: 15px;
                     flex-wrap: wrap;
-                    margin-bottom: 20px;
+                    margin-bottom: 25px;
                 }
                 
                 .author {
@@ -188,34 +216,57 @@ class BookDetail extends HTMLElement {
                 }
                 
                 .genre-tag {
-                    background-color: var(--secondary-color);
-                    color: var(--primary-color);
-                    padding: 4px 12px;
+                    background-color: var(--primary-color);
+                    color: white;
+                    padding: 5px 15px;
                     border-radius: 50px;
-                    font-size: 0.9rem;
+                    font-size: 0.85rem;
                     font-weight: 600;
+                    letter-spacing: 0.5px;
+                    text-transform: uppercase;
+                }
+                
+                .published-year {
+                    font-size: 0.95rem;
+                    opacity: 0.7;
+                    color: var(--text-secondary);
                 }
                 
                 .section-title {
-                    font-size: 1.2rem;
+                    font-size: 1.3rem;
                     font-weight: 600;
-                    color: var(--primary-color);
-                    margin: 25px 0 10px 0;
+                    color: white;
+                    margin: 30px 0 15px 0;
                     font-family: var(--title-font);
+                    position: relative;
+                    display: inline-block;
+                }
+                
+                .section-title::after {
+                    content: "";
+                    position: absolute;
+                    bottom: -5px;
+                    left: 0;
+                    width: 40px;
+                    height: 3px;
+                    background-color: var(--primary-color);
                 }
                 
                 .synopsis {
-                    font-size: 1rem;
+                    font-size: 1.1rem;
                     line-height: 1.6;
                     color: var(--text-color);
-                    margin-bottom: 20px;
+                    margin-bottom: 25px;
                 }
                 
                 .book-info {
                     display: grid;
-                    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-                    gap: 15px;
-                    margin-top: 20px;
+                    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+                    gap: 25px;
+                    margin-top: 25px;
+                    background-color: rgba(0, 0, 0, 0.2);
+                    border-radius: 12px;
+                    padding: 20px;
                 }
                 
                 .info-item {
@@ -225,30 +276,44 @@ class BookDetail extends HTMLElement {
                 
                 .info-label {
                     font-size: 0.9rem;
-                    color: var(--text-light);
-                    margin-bottom: 3px;
+                    color: var(--text-secondary);
+                    margin-bottom: 5px;
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                    font-weight: 500;
                 }
                 
                 .info-value {
-                    font-size: 1rem;
+                    font-size: 1.1rem;
                     font-weight: 500;
                     color: var(--text-color);
                 }
                 
                 .quotes-section {
-                    margin-top: 25px;
-                    padding-top: 20px;
-                    border-top: 1px solid rgba(0, 0, 0, 0.1);
+                    margin-top: 30px;
+                    padding-top: 25px;
+                    border-top: 1px solid rgba(255, 255, 255, 0.1);
                 }
                 
                 .quote {
                     font-style: italic;
                     color: var(--text-color);
-                    padding: 15px;
-                    background-color: rgba(0, 0, 0, 0.03);
-                    border-left: 3px solid var(--secondary-color);
-                    margin-bottom: 15px;
-                    border-radius: 0 5px 5px 0;
+                    padding: 20px;
+                    background-color: rgba(255, 255, 255, 0.05);
+                    border-left: 3px solid var(--primary-color);
+                    margin-bottom: 20px;
+                    border-radius: 0 8px 8px 0;
+                    position: relative;
+                }
+                
+                .quote::before {
+                    content: '"';
+                    position: absolute;
+                    top: 10px;
+                    left: 10px;
+                    font-size: 40px;
+                    opacity: 0.2;
+                    color: var(--primary-color);
                 }
                 
                 /* Animaciones */
@@ -271,6 +336,25 @@ class BookDetail extends HTMLElement {
                         opacity: 1;
                     }
                 }
+                
+                /* Scrollbar personalizado */
+                .book-content::-webkit-scrollbar {
+                    width: 8px;
+                }
+                
+                .book-content::-webkit-scrollbar-track {
+                    background: rgba(255, 255, 255, 0.05);
+                    border-radius: 10px;
+                }
+                
+                .book-content::-webkit-scrollbar-thumb {
+                    background: var(--primary-color);
+                    border-radius: 10px;
+                }
+                
+                .book-content::-webkit-scrollbar-thumb:hover {
+                    background: rgba(255, 255, 255, 0.3);
+                }
             </style>
             
             <div class="backdrop"></div>
@@ -285,11 +369,12 @@ class BookDetail extends HTMLElement {
                     <div class="book-meta">
                         <div class="author">Por ${book.author}</div>
                         <div class="genre-tag">${book.genre}</div>
+                        <div class="published-year">${book.publishedDate || book.publicationDate || ''}</div>
                     </div>
                     
-                    <div class="section-title">Sinopsis</div>
                     <div class="synopsis">${book.synopsis || book.description || 'No hay sinopsis disponible para este libro.'}</div>
                     
+                    <div class="section-title">Detalles del libro</div>
                     <div class="book-info">
                         <div class="info-item">
                             <div class="info-label">Publicación</div>
@@ -312,7 +397,7 @@ class BookDetail extends HTMLElement {
                     ${book.quotes && book.quotes.length > 0 ? `
                         <div class="quotes-section">
                             <div class="section-title">Citas destacadas</div>
-                            ${book.quotes.map(quote => `<div class="quote">"${quote}"</div>`).join('')}
+                            ${book.quotes.map(quote => `<div class="quote">${quote}</div>`).join('')}
                         </div>
                     ` : ''}
                 </div>
