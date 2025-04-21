@@ -301,3 +301,190 @@ document.addEventListener('DOMContentLoaded', () => {
     // Inicializar
     ajustarCategoryCarousel();
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Cargar los datos de libros
+    fetch('src/data/books.json')
+        .then(response => response.json())
+        .then(data => {
+            // Almacenar los datos para uso en toda la aplicación
+            window.booksData = data;
+            
+            // Renderizar libros destacados
+            renderFeaturedBooks(data);
+            
+            // Renderizar todos los libros por género
+            renderBooksByGenre(data);
+            
+            // Inicializar búsqueda
+            initSearch(data);
+            
+            // Inicializar navegación
+            initNavigation();
+        })
+        .catch(error => {
+            console.error('Error al cargar los datos:', error);
+        });
+});
+
+// Función para renderizar libros destacados
+function renderFeaturedBooks(books) {
+    const featuredContainer = document.querySelector('.featured-books .books-grid');
+    
+    // Filtrar libros destacados (isFeatured: true)
+    const featuredBooks = books.filter(book => book.isFeatured);
+    
+    // Limitar a 4 libros destacados
+    featuredBooks.slice(0, 4).forEach(book => {
+        const bookCard = document.createElement('book-card');
+        bookCard.data = book;
+        featuredContainer.appendChild(bookCard);
+    });
+}
+
+// Función para renderizar libros por género
+function renderBooksByGenre(books) {
+    // Obtener géneros únicos
+    const genres = [...new Set(books.map(book => book.genre))];
+    
+    // Contenedor para catálogo completo
+    const catalogContainer = document.querySelector('#catalog-container');
+    
+    // Crear sección para cada género
+    genres.forEach(genre => {
+        // Filtrar libros por género
+        const genreBooks = books.filter(book => book.genre === genre);
+        
+        if (genreBooks.length > 0) {
+            // Crear contenedor de sección
+            const genreSection = document.createElement('section');
+            genreSection.classList.add('genre-section');
+            genreSection.id = `genre-${genre.toLowerCase().replace(/\s+/g, '-')}`;
+            
+            // Crear encabezado de sección
+            const genreHeader = document.createElement('h2');
+            genreHeader.classList.add('section-title');
+            genreHeader.textContent = genre;
+            genreSection.appendChild(genreHeader);
+            
+            // Crear grid de libros
+            const booksGrid = document.createElement('div');
+            booksGrid.classList.add('books-grid');
+            
+            // Añadir libros a la grid
+            genreBooks.forEach(book => {
+                const bookCard = document.createElement('book-card');
+                bookCard.data = book;
+                booksGrid.appendChild(bookCard);
+            });
+            
+            genreSection.appendChild(booksGrid);
+            catalogContainer.appendChild(genreSection);
+        }
+    });
+}
+
+// Inicializar funcionalidad de búsqueda
+function initSearch(books) {
+    const searchInput = document.querySelector('#search-input');
+    const searchResults = document.querySelector('#search-results');
+    const searchResultsContainer = document.querySelector('#search-results-container');
+    
+    searchInput.addEventListener('input', function(e) {
+        const searchTerm = e.target.value.toLowerCase();
+        
+        // Ocultar resultados si el campo está vacío
+        if (searchTerm === '') {
+            searchResultsContainer.classList.add('hidden');
+            return;
+        }
+        
+        // Filtrar libros que coincidan con la búsqueda
+        const results = books.filter(book => 
+            book.title.toLowerCase().includes(searchTerm) || 
+            book.author.toLowerCase().includes(searchTerm) ||
+            book.genre.toLowerCase().includes(searchTerm)
+        );
+        
+        // Mostrar resultados
+        searchResultsContainer.classList.remove('hidden');
+        searchResults.innerHTML = '';
+        
+        if (results.length === 0) {
+            searchResults.innerHTML = '<p class="no-results">No se encontraron resultados</p>';
+        } else {
+            results.forEach(book => {
+                const bookCard = document.createElement('book-card');
+                bookCard.data = book;
+                searchResults.appendChild(bookCard);
+            });
+        }
+    });
+    
+    // Cerrar búsqueda al hacer clic fuera
+    document.addEventListener('click', function(e) {
+        if (!searchInput.contains(e.target) && !searchResultsContainer.contains(e.target)) {
+            searchResultsContainer.classList.add('hidden');
+            searchInput.value = '';
+        }
+    });
+    
+    // Listener para la tecla Escape
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            searchResultsContainer.classList.add('hidden');
+            searchInput.value = '';
+            searchInput.blur();
+        }
+    });
+}
+
+// Inicializar navegación
+function initNavigation() {
+    const navLinks = document.querySelectorAll('.nav-link');
+    const sections = document.querySelectorAll('section[id]');
+    
+    // Agregar efecto smooth scroll a los enlaces de navegación
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const targetId = this.getAttribute('href').substring(1);
+            const targetSection = document.getElementById(targetId);
+            
+            if (targetSection) {
+                // Scroll suave a la sección seleccionada
+                window.scrollTo({
+                    top: targetSection.offsetTop - 80, // Ajuste para compensar la altura del header
+                    behavior: 'smooth'
+                });
+                
+                // Actualizar clase activa en navegación
+                navLinks.forEach(navLink => navLink.classList.remove('active'));
+                this.classList.add('active');
+            }
+        });
+    });
+    
+    // Actualizar navegación al hacer scroll
+    window.addEventListener('scroll', function() {
+        let current = '';
+        const scrollPosition = window.scrollY;
+        
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop - 100;
+            const sectionHeight = section.offsetHeight;
+            
+            if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                current = section.getAttribute('id');
+            }
+        });
+        
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${current}`) {
+                link.classList.add('active');
+            }
+        });
+    });
+}
