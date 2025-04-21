@@ -18,7 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const seccionFiccionHistorica = document.getElementById('seccion-ficcion-historica');
     const seccionRealismoMagico = document.getElementById('seccion-realismo-magico');
     const seccionDrama = document.getElementById('seccion-drama');
-    const seccionCienciaFiccion = document.getElementById('seccion-ciencia-ficcion');
     const seccionMisterio = document.getElementById('seccion-misterio');
     
     // Variables para el carrusel de categorías
@@ -142,7 +141,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (seccionFiccionHistorica) seccionFiccionHistorica.innerHTML = '';
         if (seccionRealismoMagico) seccionRealismoMagico.innerHTML = '';
         if (seccionDrama) seccionDrama.innerHTML = '';
-        if (seccionCienciaFiccion) seccionCienciaFiccion.innerHTML = '';
         if (seccionMisterio) seccionMisterio.innerHTML = '';
         if (seccionDestacados) seccionDestacados.innerHTML = '';
         
@@ -153,7 +151,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const librosFiccionHistorica = obtenerLibrosPorGenero('ficción histórica');
         const librosRealismoMagico = obtenerLibrosPorGenero('realismo mágico');
         const librosDrama = obtenerLibrosPorGenero('drama');
-        const librosCienciaFiccion = obtenerLibrosPorGenero('ciencia ficción');
         const librosMisterio = obtenerLibrosPorGenero('misterio');
         
         // Mostrar libros en sus respectivas secciones
@@ -163,7 +160,6 @@ document.addEventListener('DOMContentLoaded', () => {
         mostrarLibrosEnSeccion(librosFiccionHistorica, seccionFiccionHistorica);
         mostrarLibrosEnSeccion(librosRealismoMagico, seccionRealismoMagico);
         mostrarLibrosEnSeccion(librosDrama, seccionDrama);
-        mostrarLibrosEnSeccion(librosCienciaFiccion, seccionCienciaFiccion);
         mostrarLibrosEnSeccion(librosMisterio, seccionMisterio);
         
         // Mostrar los libros destacados en su sección
@@ -243,7 +239,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (seccionFiccionHistorica) seccionFiccionHistorica.innerHTML = '';
             if (seccionRealismoMagico) seccionRealismoMagico.innerHTML = '';
             if (seccionDrama) seccionDrama.innerHTML = '';
-            if (seccionCienciaFiccion) seccionCienciaFiccion.innerHTML = '';
             if (seccionMisterio) seccionMisterio.innerHTML = '';
             if (seccionDestacados) seccionDestacados.innerHTML = '';
             
@@ -270,9 +265,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         break;
                     case 'drama':
                         if (seccionDrama) seccionDrama.appendChild(bookCard.cloneNode(true));
-                        break;
-                    case 'ciencia ficción':
-                        if (seccionCienciaFiccion) seccionCienciaFiccion.appendChild(bookCard.cloneNode(true));
                         break;
                     case 'misterio':
                         if (seccionMisterio) seccionMisterio.appendChild(bookCard.cloneNode(true));

@@ -27,7 +27,6 @@
     --color-ficcion-historica: #2ecc71;
     --color-realismo-magico: #f39c12;
     --color-drama: #34495e;
-    --color-ciencia-ficcion: #1abc9c;
     --color-misterio: #8e44ad;
 }
 
@@ -438,22 +437,6 @@ nav ul li a:hover {
     width: 100%;
     height: 100%;
     background: linear-gradient(45deg, transparent 50%, rgba(255, 255, 255, 0.05) 50%);
-    z-index: 1;
-}
-
-#ciencia-ficcion {
-    background: linear-gradient(135deg, #16a085 0%, #1abc9c 100%);
-    box-shadow: var(--shadow-md);
-}
-
-#ciencia-ficcion::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.15), transparent 60%);
     z-index: 1;
 }
 
