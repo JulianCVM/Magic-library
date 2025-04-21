@@ -172,12 +172,30 @@ class BookCardComponent extends HTMLElement {
 
         bookCard.addEventListener('click', () => {
             console.log('Libro seleccionado:', title);
-            // Mostrar más detalles del libro si se desea
+            // Mostrar detalles del libro
+            this.mostrarDetalles();
         });
 
         this.shadowRoot.appendChild(bookCard);
     }
     
+    mostrarDetalles() {
+        if (!this._data) return;
+        
+        // Crear elemento de detalle
+        const bookDetail = document.createElement('book-detail');
+        bookDetail.data = this._data;
+        
+        // Escuchar evento de cierre
+        bookDetail.addEventListener('close-detail', () => {
+            document.body.style.overflow = 'auto'; // Restaurar scroll
+        });
+        
+        // Añadir al DOM
+        document.body.appendChild(bookDetail);
+        document.body.style.overflow = 'hidden'; // Prevenir scroll en el fondo
+    }
+
     toggleFavorito() {
         this._esFavorito = !this._esFavorito;
         const starElement = this.shadowRoot.querySelector('.star');
